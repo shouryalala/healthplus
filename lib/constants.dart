@@ -1,6 +1,5 @@
 class Constants {
-  static const String APP_NAME = "Fello";
-  // static final String DEBUG_TAG = "DEBUG_KANTA::";
+  static const String APP_NAME = "Health Plus";
 
   //Collections
   static final String COLN_USERS = "users";

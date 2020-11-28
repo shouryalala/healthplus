@@ -43,7 +43,7 @@ class LogoFadeIn extends State<SplashScreen> {
   }
 
   initialize() async{
-    Navigator.of(context).pushReplacementNamed('/onboarding');
+    Navigator.of(context).pushReplacementNamed('/approot');
 
     // final baseProvider = Provider.of<BaseUtil>(context);
     // final fcmProvider = Provider.of<FcmListener>(context);

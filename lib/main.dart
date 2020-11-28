@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:healthplus/app_root.dart';
 import 'package:healthplus/constants.dart';
+import 'package:healthplus/home_page.dart';
 import 'package:healthplus/launcher_screen.dart';
 import 'package:healthplus/locator.dart';
 import 'package:healthplus/ui_constants.dart';
@@ -35,8 +36,8 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           '/launcher': (BuildContext context) => SplashScreen(),
           '/approot': (BuildContext context) => AppRoot(),
-          // '/onboarding': (BuildContext context) => OnboardingMainPage(),
-          // '/login': (BuildContext context) => LoginController(),
+          '/neonatal': (BuildContext context) => HomePage(pageType: 0,),
+          '/cbd': (BuildContext context) => HomePage(pageType: 1,),
           // '/gametab': (BuildContext context) =>
           //     MyHomePage(title: Constants.APP_NAME),
           // '/savetab': (BuildContext context) =>
