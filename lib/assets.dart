@@ -56,6 +56,21 @@ class Assets{
     'images/transport_baby_incubator.jpg',
   ];
 
+  static final List<String> chfLabels = [
+    'Heart Mate VAD',
+    'ICD 1',
+    'ICD 2',
+    'LVAD',
+  ];
+
+  static final List<String> chfImagePath = [
+    'images/heart_mate_vad.jpg',
+    'images/ICD_1.jpg',
+    'images/ICD_2.jpg',
+    'images/LVAD.jpg',
+
+  ];
+
 
   static final List<String> onboardingHeader=[
     'Save',
