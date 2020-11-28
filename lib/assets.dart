@@ -20,6 +20,43 @@ class Assets{
   ];
 
 
+  static final List<String> neoNatalDeviceLabels = [
+    'Baby Incubator',
+    'Baby Weighing Scale',
+    'Fiber Optic Neonatal Transilluminator',
+    'Infant Observation Trolley',
+    'Infant Radiant Warmer',
+    'Medical Air Compressor',
+    'NeonatalInfant Resuscitator',
+    'Open Care System',
+    'Oxygen Analyser',
+    'OxyPAP',
+    'Phototherapy Fibre Optic',
+    'Phototherapy Radiometer',
+    'Respiration Monitor',
+    'SPOT LED Phototherapy Unit',
+    'Transport Baby Incubator',
+  ];
+
+  static final List<String> neoNatalImagePath = [
+    'images/baby_incubator.jpg',
+    'images/baby_weighing_scale.jpg',
+    'images/fiber_optic_neonatal_transilluminator.jpg',
+    'images/infant_observation_trolley.jpg',
+    'images/infant_radiant_warmer.jpg',
+    'images/medical_air_compressor.jpg',
+    'images/neonatalInfant_resuscitator.jpg',
+    'images/oxy_pap.png',
+    'images/open_care_system.jpg',
+    'images/oxygen_analyser.jpg',
+    'images/phototherapy_fibre_optic.jpg',
+    'images/phototherapy_radiometer.jpg',
+    'images/respiration_monitor.jpg',
+    'images/spot_led_phototherapy_unit.jpg',
+    'images/transport_baby_incubator.jpg',
+  ];
+
+
   static final List<String> onboardingHeader=[
     'Save',
     'Grow',

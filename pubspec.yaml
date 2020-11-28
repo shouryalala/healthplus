@@ -56,9 +56,22 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - images/baby_incubator.jpg
+    - images/baby_weighing_scale.jpg
+    - images/fiber_optic_neonatal_transilluminator.jpg
+    - images/infant_observation_trolley.jpg
+    - images/infant_radiant_warmer.jpg
+    - images/medical_air_compressor.jpg
+    - images/neonatalInfant_resuscitator.jpg
+    - images/oxy_pap.png
+    - images/open_care_system.jpg
+    - images/oxygen_analyser.jpg
+    - images/phototherapy_fibre_optic.jpg
+    - images/phototherapy_radiometer.jpg
+    - images/respiration_monitor.jpg
+    - images/spot_led_phototherapy_unit.jpg
+    - images/transport_baby_incubator.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
