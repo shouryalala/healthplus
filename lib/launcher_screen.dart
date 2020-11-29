@@ -29,17 +29,17 @@ class LogoFadeIn extends State<SplashScreen> {
         _logoStyle = LogoStyle.stacked;
       });
     });
-    _timer2 = new Timer(const Duration(seconds: 2), () {
+    _timer2 = new Timer(const Duration(seconds: 5), () {
       setState(() {
         initialize();
       });
     });
-    _timer3 = new Timer(const Duration(seconds: 6), () {
-      //display slow internet message
-      setState(() {
-        _isSlowConnection = true;
-      });
-    });
+    // _timer3 = new Timer(const Duration(seconds: 6), () {
+    //   //display slow internet message
+    //   setState(() {
+    //     _isSlowConnection = true;
+    //   });
+    // });
   }
 
   initialize() async{

@@ -1,12 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:healthplus/addresses_dialog.dart';
 import 'package:healthplus/assets.dart';
+import 'package:healthplus/constants.dart';
 import 'package:healthplus/light_color.dart';
 import 'package:healthplus/model/dactor_model.dart';
 import 'package:healthplus/model/data.dart';
+import 'package:healthplus/onboard_dialog.dart';
 import 'package:healthplus/text_styles.dart';
 import 'package:healthplus/theme.dart';
+import 'package:healthplus/ui_constants.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.pageType}) : super(key: key);
@@ -19,48 +24,40 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<DoctorModel> doctorDataList;
+
   @override
-  void initState() { 
-    doctorDataList = doctorMapList.map((x)=> DoctorModel.fromJson(x)).toList();
+  void initState() {
+    doctorDataList = doctorMapList.map((x) => DoctorModel.fromJson(x)).toList();
     super.initState();
   }
+
   Widget _appBar() {
     return AppBar(
-      elevation: 0,
+      elevation: 0.0,
       backgroundColor: Theme.of(context).backgroundColor,
-      leading: Icon(
-        Icons.short_text,
-        size: 30,
-        color: Colors.black,
+      iconTheme: IconThemeData(
+        color: UiConstants.accentColor, //change your color here
       ),
-      actions: <Widget>[
-        Icon(
-          Icons.notifications_none,
-          size: 30,
-          color: LightColor.grey,
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(13)),
-          child: Container(
-            // height: 40,
-            // width: 40,
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-            ),
-            child: Image.asset("assets/user.png", fit: BoxFit.fill),
-          ),
-        ),//.p(8),
-      ],
+      title: Text('',
+          style: TextStyle(
+              color: UiConstants.accentColor,
+              fontWeight: FontWeight.w700,
+              fontSize: 30.0)),
     );
   }
 
   Widget _header() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text("Hello,", style: TextStyles.title.copyWith(color: LightColor.subTitleTextColor)),
-        Text("Peter Parker", style: TextStyles.h1Style),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(left:20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello,",
+              style:
+              TextStyles.title.copyWith(color: LightColor.extraLightBlue)),
+          Text("Suraaj Ray Lala", style: TextStyles.h1Style),
+        ],
+      )
     );
   }
 
@@ -82,16 +79,16 @@ class _HomePageState extends State<HomePage> {
       ),
       child: TextField(
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          border: InputBorder.none,
-          hintText: "Search",
-          hintStyle: TextStyles.body.copyWith(color: LightColor.subTitleTextColor),
-          suffixIcon: SizedBox(
-              width: 50,
-              child: Icon(Icons.search, color: LightColor.purple))
-                  //.alignCenter
-                  //.ripple(() {}, borderRadius: BorderRadius.circular(13))),
-        ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            border: InputBorder.none,
+            hintText: "Search",
+            hintStyle:
+                TextStyles.body.copyWith(color: LightColor.subTitleTextColor),
+            suffixIcon: SizedBox(
+                width: 50, child: Icon(Icons.search, color: LightColor.purple))
+            //.alignCenter
+            //.ripple(() {}, borderRadius: BorderRadius.circular(13))),
+            ),
       ),
     );
   }
@@ -104,12 +101,14 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text("Category", style: TextStyles.title.copyWith(fontWeight: FontWeight.bold)),
+              Text("Category",
+                  style:
+                      TextStyles.title.copyWith(fontWeight: FontWeight.bold)),
               Text(
                 "See All",
                 style: TextStyles.titleNormal
                     .copyWith(color: Theme.of(context).primaryColor),
-              )//.p(8).ripple(() {})
+              ) //.p(8).ripple(() {})
             ],
           ),
         ),
@@ -119,11 +118,21 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              _categoryCard("Chemist & Drugist", "350 + Stores",
+              InkWell(
+                  child:_categoryCard("Find a speacialist", "150+ Clinics",
                   color: LightColor.green, lightColor: LightColor.lightGreen),
-              _categoryCard("Covid - 19 Specilist", "899 Doctors",
+                onTap: () {
+                    HapticFeedback.vibrate();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AboutUsDialog()
+                    );
+                },
+
+              ),
+              _categoryCard("Have a tele-consultation", "80+ Doctors",
                   color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
-              _categoryCard("Cardiologists Specilist", "500 + Doctors",
+              _categoryCard("Book an appointment", "9AM to 7PM",
                   color: LightColor.orange, lightColor: LightColor.lightOrange)
             ],
           ),
@@ -132,13 +141,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _categoryCard(String title, String subtitle,{Color color, Color lightColor}) {
-     TextStyle titleStyle = TextStyles.title.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
-     TextStyle subtitleStyle = TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
-     if(AppTheme.fullWidth(context) < 392){
-       titleStyle = TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
-       subtitleStyle = TextStyles.bodySm.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
-     }
+  Widget _categoryCard(String title, String subtitle,
+      {Color color, Color lightColor}) {
+    TextStyle titleStyle = TextStyles.title
+        .copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+    TextStyle subtitleStyle = TextStyles.body
+        .copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+    if (AppTheme.fullWidth(context) < 392) {
+      titleStyle = TextStyles.body
+          .copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+      subtitleStyle = TextStyles.bodySm
+          .copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+    }
     return AspectRatio(
       aspectRatio: 6 / 8,
       child: Container(
@@ -173,26 +187,28 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Flexible(
-                      child: Text(
-                        title,
-                        style: titleStyle
-                      ),//.hP8,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child:Text(title, style: titleStyle)), //.hP8,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Flexible(
-                      child: Text(
-                        subtitle,
-                        style: subtitleStyle,
-                      ),//.hP8,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          subtitle,
+                          style: subtitleStyle,
+                        ),
+                      ), //.hP8,
                     ),
                   ],
-                ),//.p16
+                ), //.p16
               ],
             ),
           ),
-        ),//.ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
+        ), //.ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
     );
   }
@@ -204,7 +220,12 @@ class _HomePageState extends State<HomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text("Top Doctors", style: TextStyles.title.copyWith(fontWeight: FontWeight.bold)),
+              Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text("Top Devices",
+                    style:
+                    TextStyles.title.copyWith(fontWeight: FontWeight.bold)),
+              ),
               IconButton(
                   icon: Icon(
                     Icons.sort,
@@ -213,81 +234,105 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {})
               // .p(12).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
             ],
-          ),//.hP16,
+          ), //.hP16,
           getdoctorWidgetList()
-          
-          
         ],
       ),
     );
   }
-  Widget getdoctorWidgetList(){
+
+  Widget getdoctorWidgetList() {
     List<Widget> kids = [];
-    for(int i=0; i<Assets.neoNatalDeviceLabels.length; i++) {
-      kids.add(
-        _doctorTile(Assets.neoNatalImagePath[i], Assets.neoNatalDeviceLabels[i])
-      );
+    if (widget.pageType == 0) {
+      for (int i = 0; i < Assets.neoNatalDeviceLabels.length; i++) {
+        kids.add(InkWell(
+          child: _doctorTile(
+              Assets.neoNatalImagePath[i], Assets.neoNatalDeviceLabels[i]),
+          onTap: () {
+            HapticFeedback.vibrate();
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => OnboardDialog(imagePath:Assets.neoNatalImagePath[i], title: Assets.neoNatalDeviceLabels[i])
+            );
+          },
+        ));
+      }
+    } else {
+      for (int i = 0; i < Assets.chfLabels.length; i++) {
+        kids.add(InkWell(
+          child: _doctorTile(Assets.chfImagePath[i], Assets.chfLabels[i]),
+          onTap: () {
+            HapticFeedback.vibrate();
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => OnboardDialog(imagePath: Assets.chfImagePath[i], title: Assets.chfLabels[i])
+            );
+          },
+        ));
+      }
     }
-     return Column(
-       children: kids
-     );
+    return Column(children: kids);
   }
+
   Widget _doctorTile(String xImage, String xName) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            offset: Offset(4, 4),
-            blurRadius: 10,
-            color: LightColor.grey.withOpacity(.2),
-          ),
-          BoxShadow(
-            offset: Offset(-3, 0),
-            blurRadius: 15,
-            color: LightColor.grey.withOpacity(.1),
-          )
-        ],
-      ),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-        child: ListTile(
-          contentPadding: EdgeInsets.all(0),
-          leading: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(13)),
-            child: Container(
-              height: 55,
-              width: 55,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: randomColor(),
-              ),
-              child: Image.asset(
-                xImage,
-                height: 50,
-                width: 50,
-                fit: BoxFit.contain,
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              offset: Offset(4, 4),
+              blurRadius: 10,
+              color: LightColor.grey.withOpacity(.2),
+            ),
+            BoxShadow(
+              offset: Offset(-3, 0),
+              blurRadius: 15,
+              color: LightColor.grey.withOpacity(.1),
+            )
+          ],
+        ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          child: ListTile(
+            contentPadding: EdgeInsets.all(0),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(13)),
+              child: Container(
+                height: 55,
+                width: 55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: randomColor(),
+                ),
+                child: Image.asset(
+                  xImage,
+                  height: 50,
+                  width: 50,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
+            title: Text(xName,
+                style: TextStyles.title.copyWith(fontWeight: FontWeight.bold)),
+            subtitle: Text(
+              'See More',
+              style: TextStyles.bodySm.copyWith(
+                  color: LightColor.subTitleTextColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(
+              Icons.keyboard_arrow_right,
+              size: 30,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
-          title: Text(xName, style: TextStyles.title.copyWith(fontWeight: FontWeight.bold)),
-          subtitle: Text(
-           'See More',
-            style: TextStyles.bodySm.copyWith(color: LightColor.subTitleTextColor, fontWeight: FontWeight.bold),
-          ),
-          trailing: Icon(
-            Icons.keyboard_arrow_right,
-            size: 30,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-      )
-      //     .ripple(() {
-      //   Navigator.pushNamed(context, "/DetailPage", arguments: model);
-      // }, borderRadius: BorderRadius.all(Radius.circular(20))),
-    );
+        )
+        //     .ripple(() {
+        //   Navigator.pushNamed(context, "/DetailPage", arguments: model);
+        // }, borderRadius: BorderRadius.all(Radius.circular(20))),
+        );
   }
 
   Color randomColor() {

@@ -258,20 +258,35 @@ class _LogoPainter extends BoxPainter {
   Rect _textBoundingRect;
 
   void _prepareText() {
-    const String kLabel = '   ';//Constants.APP_NAME;
+    const String kLabel = 'HEALTH PLUS';//Constants.APP_NAME;
     _textPainter = TextPainter(
       text: TextSpan(
-        text: kLabel,
-        style: TextStyle(
-          color: _config.textColor,
-          fontFamily: 'Roboto',
-          fontSize: 110.0, // 247 is the height of the F when the fontSize is 350, assuming device pixel ratio 1.0
+        children: [
+          TextSpan(
+            text: kLabel,
+            style: TextStyle(
+              color: _config.textColor,
+              fontFamily: 'Roboto',
+              fontSize: 110.0, // 247 is the height of the F when the fontSize is 350, assuming device pixel ratio 1.0
 //          fontSize: 100.0 * 50.0 / 247.0, // 247 is the height of the F when the fontSize is 350, assuming device pixel ratio 1.0
-          fontWeight: FontWeight.w600,
-          textBaseline: TextBaseline.alphabetic,
-        ),
+              fontWeight: FontWeight.w600,
+              textBaseline: TextBaseline.alphabetic,
+            ),
+          ),
+          TextSpan(
+            text: '\nby Suraaj Ray Lala',
+            style: TextStyle(
+              color: _config.textColor,
+              fontFamily: 'Roboto',
+              fontSize: 60.0, // 247 is the height of the F when the fontSize is 350, assuming device pixel ratio 1.0
+//          fontSize: 100.0 * 50.0 / 247.0, // 247 is the height of the F when the fontSize is 350, assuming device pixel ratio 1.0
+              fontWeight: FontWeight.w600,
+              textBaseline: TextBaseline.alphabetic,
+            ),
+          )
+        ],
       ),
-      textDirection: TextDirection.ltr,
+      textDirection: TextDirection.ltr,textAlign: TextAlign.center
     );
     _textPainter.layout();
     final ui.TextBox textSize = _textPainter.getBoxesForSelection(const TextSelection(baseOffset: 0, extentOffset: kLabel.length)).single;
